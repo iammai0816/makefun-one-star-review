@@ -14,9 +14,13 @@ REVIEW = (
 
 
 def main() -> None:
-    # Guard: the entry must be a single line under 200 chars before writing.
+    # Guard: the entry must be a single line of exactly 87 chars before
+    # writing. The length is part of the entry's identity: any drift in
+    # wording would change the review, so check it exactly, not just an
+    # upper bound.
     assert "\n" not in REVIEW, "entry must be a single line"
-    assert len(REVIEW) < 200, f"entry too long: {len(REVIEW)} chars"
+    assert len(REVIEW) == 87, f"entry must be 87 chars, got {len(REVIEW)}"
+    assert REVIEW.endswith("."), "entry must end with a full stop"
     output_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(output_dir, exist_ok=True)
     entry_path = os.path.join(output_dir, "entry.txt")
